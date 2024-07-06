@@ -1,48 +1,65 @@
-# Função Adição
-def add(x, y):
-    return x + y
-# Função Subtração
+import tkinter as tk
 
 
-def subtract(x, y):
-    return x - y
-# Função Multiplicação
+def click(button):
+    current = entry.get()
+    if button == "=":
+        try:
+            result = str(eval(current))
+            entry.delete(0, tk.END)
+            entry.insert(0, result)
+        except:
+            entry.delete(0, tk.END)
+            entry.insert(0, "Erro")
+    elif button == "C":
+        entry.delete(0, tk.END)
+    else:
+        entry.insert(tk.END, button)
 
 
-def multiply(x, y):
-    return x * y
-# Função Divisão
+root = tk.Tk()
+root.title("Calculadora")
 
+# Definindo tamanho base da janela da calculadora
 
-def divide(x, y):
-    if y == 0:
-        return "Erro! Divisão por zero."
-    return x / y
+largura_janela = 380
+altura_janela = 420
 
+root.geometry(f"{largura_janela}x{altura_janela}")
+root.resizable(False, False)
 
-# Interface da Calculadora
-print("Selecione a operação: ")
-print("1.Adição")
-print("2.Subtração")
-print("3.Multiplicação")
-print("4.Divisão")
+# Visor de números
 
-escolha = input("Digite a escolha (1/2/3/4): ")
+entry = tk.Entry(root, width=20, font=('Arial', 18),
+                 borderwidth=2, relief="solid")
+entry.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky="nsew")
 
-num1 = float(input("Digite o primeiro número: "))
-num2 = float(input("Digite o segundo número: "))
+# Botão C do lado do visor
 
-if escolha == '1':
-    print(f"{num1} + {num2} = {add(num1, num2)}")
+tk.Button(root, text='C', width=5, height=2, font=('Arial', 18), command=lambda: click('C')
+          ).grid(row=0, column=3, padx=5, pady=5, sticky="nsew")
 
-elif escolha == '2':
-    print(f"{num1} - {num2} = {subtract(num1, num2)}")
+# Botões da calculadora
 
-elif escolha == '3':
-    print(f"{num1} * {num2} = {multiply(num1, num2)}")
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+'
+]
 
-elif escolha == '4':
-    print(f"{num1} / {num2} = {divide(num1, num2)}")
+row = 1
+col = 0
 
-else:
-    print("Entrada inválida.")
+# Botões na interface
+
+for button in buttons:
+    def action(x=button): return click(x)
+    tk.Button(root, text=button, width=5, height=2, font=('Arial', 18),
+              command=action).grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+    col += 1
+    if col > 3:
+        col = 0
+        row += 1
+
+root.mainloop()
