@@ -1,2 +1,4 @@
 # calculator-v1
- Primeira Calculadora Python
+ Minha primeira Calculadora em Python
+
+ (Projeto de estudos)
